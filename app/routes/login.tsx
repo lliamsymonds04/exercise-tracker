@@ -85,7 +85,7 @@ export default function Login() {
                 }}
             >{isUserRegistered ? "Login" : "Register"}</button>
 
-            <BeatLoader color="#333333" loading={isLoading}/>
+            <BeatLoader color="#333333" loading={isLoading} className="mt-4"/>
         </div>
     )
 }
