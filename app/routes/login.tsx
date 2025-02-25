@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import type { Route } from "./+types/login";
-import BeatLoader from "react-spinners/BeatLoader";
 
 import ToggleButton from "~/components/ToggleButton";
+// import Popup from "~/components/Alert";
 import api from "~/helpers/api";
+import { BounceLoading } from "respinner";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,35 +15,48 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Login() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isUserRegistered, setIsUserRegistered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [positiveMessage, setPositiveMessage] = useState("");
+
+
+
+    useEffect(() => {
+        setIsLoading(false)
+        setPositiveMessage("")
+    }, [])
 
     async function login() {
-        console.log("login")
         try {
             const response = await api.post("/login", {
                 username,
                 password
             });
+
+            setPositiveMessage("Successfully logged in! Redirecting..")
+            navigate("/home");
         } catch (error) {
             console.error(error);
+            setIsLoading(false)
         }
-        setIsLoading(false)
     }
 
     async function register() {
-        console.log("register")
         try {
             const response = await api.post("/register", {
                 username,
                 password
             });
+
+            setPositiveMessage("Successfully registered! Logging in..")
+            navigate("/home");
         } catch (error) {
             console.error(error);
+            setIsLoading(false)
         }
-        setIsLoading(false)
     }
 
     return (
@@ -75,9 +90,10 @@ export default function Login() {
             />
 
             <button 
-                className="font-serif font-bold drop-shadow-md rounded-2xl h-10 w-[50%] max-w-[7rem] cursor-pointer mt-4"
+                className="font-serif font-bold drop-shadow-md rounded-2xl h-10 w-[50%] max-w-[7rem] cursor-pointer mt-4 active:scale-95 active:shadow-inner"
                 style={{backgroundColor: (username !== "" && password !== "") ? "#D9EAFD" : "#C4C4C4"}}
                 onClick={() => {
+                    if (username === "" || password === "") return
                     if (isLoading) return
                     setIsLoading(true)
                     
@@ -85,7 +101,8 @@ export default function Login() {
                 }}
             >{isUserRegistered ? "Login" : "Register"}</button>
 
-            <BeatLoader color="#333333" loading={isLoading} className="mt-4"/>
+            {isLoading && <BounceLoading fill="#333333"/>}
+            {/* <Popup backgroundColour="#F0F8FF" iconColour="#FFFFF0" textColour="#FFFFFF" text={positiveMessage}/> */}
         </div>
     )
 }
