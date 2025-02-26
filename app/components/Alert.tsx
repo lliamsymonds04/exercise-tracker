@@ -13,7 +13,7 @@ function Alert({colour, title, text, iconText}: PopupProps) {
             </div>
             <div className="flex flex-col ml-3">
                 <p className="text-md font-serif font-medium" style={{color: colour}}>{title}</p>
-                <p className="text-sm font-serif" style={{color: colour}}>{text}</p>
+                <p className="text-sm font-serif ml-3" style={{color: colour}}>{text}</p>
             </div>
         </div>
     )
