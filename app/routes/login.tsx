@@ -3,9 +3,10 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/login";
 
 import ToggleButton from "~/components/ToggleButton";
-// import Popup from "~/components/Alert";
 import api from "~/helpers/api";
 import { BounceLoading } from "respinner";
+import Alert from "~/components/Alert";
+import debounce from "~/helpers/debounce";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,13 +21,20 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [isUserRegistered, setIsUserRegistered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [positiveMessage, setPositiveMessage] = useState("");
+    const [isAlertError, setIsAlertError] = useState(false);
+    const [alertTitle, setAlertTitle] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
 
-
+    function alertHelper(isError: boolean, title: string, message: string) {
+        setIsAlertError(isError)
+        setAlertTitle(title)
+        setAlertMessage(message)
+        debounce(setShowAlert, 5000)
+    }
 
     useEffect(() => {
         setIsLoading(false)
-        setPositiveMessage("")
     }, [])
 
     async function login() {
@@ -36,7 +44,7 @@ export default function Login() {
                 password
             });
 
-            setPositiveMessage("Successfully logged in! Redirecting..")
+            // setPositiveMessage("Successfully logged in! Redirecting..")
             navigate("/home");
         } catch (error) {
             console.error(error);
@@ -51,7 +59,7 @@ export default function Login() {
                 password
             });
 
-            setPositiveMessage("Successfully registered! Logging in..")
+            // setPositiveMessage("Successfully registered! Logging in..")
             navigate("/home");
         } catch (error) {
             console.error(error);
@@ -102,7 +110,7 @@ export default function Login() {
             >{isUserRegistered ? "Login" : "Register"}</button>
 
             {isLoading && <BounceLoading fill="#333333"/>}
-            {/* <Popup backgroundColour="#F0F8FF" iconColour="#FFFFF0" textColour="#FFFFFF" text={positiveMessage}/> */}
+            <Alert colour={isAlertError ? "red" : "#333333"} title={alertTitle} text={alertMessage} iconText={isAlertError ? "!" : "U+2713"}/>
         </div>
     )
 }
