@@ -44,7 +44,6 @@ export default function Login() {
                 password
             });
 
-            // setPositiveMessage("Successfully logged in! Redirecting..")
             navigate("/home");
         } catch (error) {
             console.error(error);
@@ -59,7 +58,6 @@ export default function Login() {
                 password
             });
 
-            // setPositiveMessage("Successfully registered! Logging in..")
             navigate("/home");
         } catch (error) {
             console.error(error);
@@ -101,6 +99,7 @@ export default function Login() {
                 className="font-serif font-bold drop-shadow-md rounded-2xl h-10 w-[50%] max-w-[7rem] cursor-pointer mt-4 active:scale-95 active:shadow-inner"
                 style={{backgroundColor: (username !== "" && password !== "") ? "#D9EAFD" : "#C4C4C4"}}
                 onClick={() => {
+                    alertHelper(false, "Testing", "This is a test")
                     if (username === "" || password === "") return
                     if (isLoading) return
                     setIsLoading(true)
@@ -110,7 +109,12 @@ export default function Login() {
             >{isUserRegistered ? "Login" : "Register"}</button>
 
             {isLoading && <BounceLoading fill="#333333"/>}
-            <Alert colour={isAlertError ? "red" : "#333333"} title={alertTitle} text={alertMessage} iconText={isAlertError ? "!" : "U+2713"}/>
+            {showAlert && <Alert 
+                colour={isAlertError ? "red" : "#333333"} 
+                title={alertTitle}
+                text={alertMessage} 
+                iconText={isAlertError ? "!" : '✓'}
+            />}
         </div>
     )
 }
