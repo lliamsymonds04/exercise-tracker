@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import type { Route } from "./+types/home";
 
 import api from "~/helpers/api";
-import LoadingIndicator from "~/components/LoadingIndicator";
-import { BeatLoading, BounceLoading } from "respinner";
+import { BounceLoading } from "respinner";
 import Alert from "~/components/Alert";
 
 export function meta({}: Route.MetaArgs) {
