@@ -14,10 +14,10 @@ export default function LogExercise() {
     const exerciseId = params["exercise-id"];
 
     return (
-        <div>
-            <h1>Log Exercise</h1>
+        <div className="flex flex-col items-center mt-8">
+            <h1 className="text-4xl mb-4 font-medium">Log Exercise!</h1>
             <p>Exercise Name: {exerciseName}</p>
-            <p>Exercise ID: {exerciseId}</p>
+            
         </div>
     )
 }
