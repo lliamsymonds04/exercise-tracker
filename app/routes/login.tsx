@@ -19,6 +19,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
     const navigate = useNavigate();
+    
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isUserRegistered, setIsUserRegistered] = useState(false);
