@@ -8,6 +8,7 @@ import api from "~/helpers/api";
 import { BounceLoading } from "respinner";
 import Alert from "~/components/Alert";
 import debounce from "~/helpers/debounce";
+import getErrorMessage from "~/helpers/getErrorMessage";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -33,17 +34,6 @@ export default function Login() {
         setAlertTitle(title)
         setAlertMessage(message)
         debounce(setShowAlert, 5000)
-    }
-
-    function handleErrorMessage(error: any) {
-        if (error instanceof AxiosError) {
-            const errorMessage = error.response?.data?.error || "Something went wrong";
-            alertHelper(true, "Error", errorMessage);
-        } else if (error instanceof Error) {
-            alertHelper(true, "Error", error.message)
-        } else {
-            alertHelper(true, "Error", "An error occurred")
-        }
         setIsLoading(false)
     }
 
@@ -68,7 +58,7 @@ export default function Login() {
             alertHelper(false, "Success", "Redirecting..")
             goHome()
         } catch (error) {
-            handleErrorMessage(error)
+            alertHelper(true, "Error", getErrorMessage(error))
         }
     }
 
@@ -82,7 +72,7 @@ export default function Login() {
             alertHelper(false, "Success", "Successfully created account! Redirecting..")
             goHome()
         } catch (error) {
-            handleErrorMessage(error)
+            alertHelper(true, "Error", getErrorMessage(error))
         }
     }
 
