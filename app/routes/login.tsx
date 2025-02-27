@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import ToggleButton from "~/components/ToggleButton";
 import api from "~/helpers/api";
 import { BounceLoading } from "respinner";
-import Alert from "~/components/Alert";
+import {Alert, useAlertManager, alertHelper} from "~/components/Alert";
 import debounce from "~/helpers/debounce";
 import getErrorMessage from "~/helpers/getErrorMessage";
 
@@ -19,24 +19,13 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
     const navigate = useNavigate();
-    
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isUserRegistered, setIsUserRegistered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isAlertError, setIsAlertError] = useState(false);
-    const [alertTitle, setAlertTitle] = useState("");
-    const [alertMessage, setAlertMessage] = useState("");
-    const [showAlert, setShowAlert] = useState(false);
     const [isRedirecting, setIsRedirecting] = useState(false);
-
-    function alertHelper(isError: boolean, title: string, message: string) {
-        setIsAlertError(isError)
-        setAlertTitle(title)
-        setAlertMessage(message)
-        debounce(setShowAlert, 5000)
-        setIsLoading(false)
-    }
+    const alertManager = useAlertManager()
 
     function goHome() {
         setTimeout(() => {
@@ -56,10 +45,12 @@ export default function Login() {
                 password
             });
 
-            alertHelper(false, "Success", "Redirecting..")
+            alertHelper(alertManager, false, "Success", "Redirecting..")
             goHome()
         } catch (error) {
-            alertHelper(true, "Error", getErrorMessage(error))
+            alertHelper(alertManager, true, "Error", getErrorMessage(error))
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -70,10 +61,12 @@ export default function Login() {
                 password
             });
 
-            alertHelper(false, "Success", "Successfully created account! Redirecting..")
+            alertHelper(alertManager, false, "Success", "Successfully created account! Redirecting..")
             goHome()
         } catch (error) {
-            alertHelper(true, "Error", getErrorMessage(error))
+            alertHelper(alertManager, true, "Error", getErrorMessage(error))
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -120,12 +113,7 @@ export default function Login() {
             >{isUserRegistered ? "Login" : "Register"}</button>
 
             {isLoading && <BounceLoading fill="#333333"/>}
-            {showAlert && <Alert 
-                colour={isAlertError ? "red" : "#333333"} 
-                title={alertTitle}
-                text={alertMessage} 
-                iconText={isAlertError ? "!" : '✓'}
-            />}
+            <Alert alertManager={alertManager} colour={alertManager.isError ? "red" : "#333333"} iconText={alertManager.isError ? "!" : "✓"}/>
         </div>
     )
 }
