@@ -1,11 +1,11 @@
-type PopupProps = {
+type AlertProps = {
     colour: string
     title: string
     text: string;
     iconText?: string;
 }
 
-function Alert({colour, title, text, iconText}: PopupProps) {
+function Alert({colour, title, text, iconText}: AlertProps) {
     return (
         <div className="flex w-[70%] max-w-[20rem] h-fit flex-row border-2 rounded-md items-center drop-shadow-lg" style={{borderColor: colour}}>
             <div className="ml-3">
