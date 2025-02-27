@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/login";
-import { AxiosError } from "axios";
 
 import ToggleButton from "~/components/ToggleButton";
 import api from "~/helpers/api";
