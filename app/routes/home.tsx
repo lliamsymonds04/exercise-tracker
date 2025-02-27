@@ -4,7 +4,6 @@ import type { Route } from "./+types/home";
 
 import api from "~/helpers/api";
 import { BounceLoading } from "respinner";
-import Alert from "~/components/Alert";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -33,20 +32,7 @@ export default function Home() {
 	}
 
 	async function trackExercise() {
-		try {
-			const response = await api.post("/exercise/track", {
-				exercise_name: exerciseName
-			});
-
-			const id = response.data.exercise_id
-			navigate("/log-exercise/" + exerciseName + "/" + id)
-		} catch (error) {
-			console.error(error);
-		} finally {
-			setTimeout(() => {
-				setIsLoading(false)
-			},500)
-		}
+		navigate("/log-exercise/" + exerciseName)
 	}
 
 	function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
