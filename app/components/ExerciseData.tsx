@@ -16,31 +16,33 @@ type ExerciseDataProps = {
 function Card({ date, sets, note }: CardProps) {
     //add notes after just get basic layout down
     return (
-        <div className="flex flex-row items-center justify-start bg-gray-200 h-12 w-[80%] max-w-[20rem] rounded-md">
-            {/* <h1>Exercise Data</h1> */}
-            <p className="mx-2">{date}</p>
-            <div className="w-0.75 h-full bg-[#333333] opacity-70"/>
-            <div className="flex flex-col w-full items-start">
-                <div className="flex flex-row">
-                    {sets.map((set, index) => {
-                        return (
-                            <div key={index} className="w-7 mx-2 text-center">
-                                {set.weight + "kg"}
-                            </div>
-                        )
-                    })}
-                </div>
-                <div className="w-full h-0.5 bg-[#333333] opacity-70"/>
-                <div className="flex flex-row">
-                    {sets.map((set, index) => {
-                        return (
-                            <div key={index} className="w-7 mx-2 text-center">
-                                {set.reps}
-                            </div>
-                        )
-                    })}
+        <div className="flex flex-col items-center justify-start bg-gray-200 w-[80%] max-w-[20rem] rounded-md">
+            <div className="w-full flex flex-row items-center justify-start h-14">
+                <p className="mx-2">{date}</p>
+                <div className="w-0.75 h-full bg-[#333333] opacity-70"/>
+                <div className="flex flex-col w-full items-start">
+                    <div className="flex flex-row">
+                        {sets.map((set, index) => {
+                            return (
+                                <div key={index} className="w-7 mx-2 text-center">
+                                    {set.weight + "kg"}
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="w-full h-0.5 bg-[#333333] opacity-70"/>
+                    <div className="flex flex-row">
+                        {sets.map((set, index) => {
+                            return (
+                                <div key={index} className="w-7 mx-2 text-center">
+                                    {set.reps}
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
+            {note && <div className="p-1 border-t-2 w-full border-[rgba(51,51,51,0.7)]">{note}</div>}
         </div>
     )
 }
@@ -77,7 +79,7 @@ export default function ExerciseData({exerciseName}: ExerciseDataProps) {
                 }
             })
 
-            setExerciseData([...exerciseData, response.data])
+            setExerciseData([...exerciseData, ...response.data])
 
             if (response.data.length === 5) {
                 //response returned max size so there is more data
