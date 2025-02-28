@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import type { Route } from "./+types/log-exercise";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { BounceLoading } from "respinner";
 
 import { Alert, useAlertManager, alertHelper } from "~/components/Alert";
@@ -54,6 +54,7 @@ function Cell({saveInput}: {saveInput: (v: number) => void}) {
 const SetsLimit = 5
 
 export default function LogExercise() {
+    const navigate = useNavigate();
     const { exerciseName } = useParams()
 
     const [sets, setSets] = useState<string[]>([""])
@@ -69,6 +70,7 @@ export default function LogExercise() {
     }
 
     async function submit() {
+        if (isSubmitting) return
         setIsSubmitting(true)
 
         try {
@@ -79,10 +81,13 @@ export default function LogExercise() {
             })
 
             alertHelper(alertManager, false, "Success", "Exercise logged!")
+            setTimeout(() => {
+                setIsSubmitting(false)
+                navigate("/home", {replace: true})
+            }, 1000)
         } catch (error) {
-            alertHelper(alertManager, true, "Error", getErrorMessage(error))
-        } finally {
             setIsSubmitting(false)
+            alertHelper(alertManager, true, "Error", getErrorMessage(error))
         }
     }
 
