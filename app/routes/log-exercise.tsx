@@ -5,6 +5,7 @@ import { BounceLoading } from "respinner";
 
 import { Alert, useAlertManager, alertHelper } from "~/components/Alert";
 import getErrorMessage from "~/helpers/getErrorMessage";
+import ExerciseData from "~/components/ExerciseData";
 import api from "~/helpers/api";
 
 export function meta({}: Route.MetaArgs) {
@@ -112,11 +113,13 @@ export default function LogExercise() {
                     })}
                 </div>
             </div>
-            
+
             {sets.length < SetsLimit && <button
                 className="mt-4 bg-[#D9EAFD] px-3 py-1 rounded-md cursor-pointer font-bold text-lg active:scale-90"
                 onClick={addSet}
             >+</button>}
+
+            <ExerciseData exerciseName={exerciseName || "temp"}/>
 
             <textarea className="mt-4 w-[80%] max-w-[20rem] h-16 px-3 py-1 rounded-md border-2" placeholder="Notes" onChange={handleNoteChange} value={note}/>
 

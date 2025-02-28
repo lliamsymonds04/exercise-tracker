@@ -1,0 +1,95 @@
+import { useEffect, useState } from "react";
+
+import api from "~/helpers/api";
+
+type CardProps = {
+    date: string;
+    sets: {reps: number, weight: number }[];
+    note: string;
+}
+
+type ExerciseDataProps = {
+    exerciseName: string;
+}
+
+function Card({ date, sets, note }: CardProps) {
+    //add notes after just get basic layout down
+    return (
+        <div className="flex flex-row items-center justify-start bg-gray-200 h-12 w-[80%] max-w-[20rem] rounded-md">
+            {/* <h1>Exercise Data</h1> */}
+            <p className="mx-2">{date}</p>
+            <div className="w-0.75 h-full bg-[#333333] opacity-70"/>
+            <div className="flex flex-col w-full items-start">
+                <div className="flex flex-row">
+                    {sets.map((set, index) => {
+                        return (
+                            <div key={index} className="w-7 mx-2 text-center">
+                                {set.weight + "kg"}
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className="w-full h-0.5 bg-[#333333] opacity-70"/>
+                <div className="flex flex-row">
+                    {sets.map((set, index) => {
+                        return (
+                            <div key={index} className="w-7 mx-2 text-center">
+                                {set.reps}
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+type ApiResponse = {
+    created_at: string;
+    id: number,
+    note: string,
+    sets: {reps: number, weight: number}[]
+}
+
+export default function ExerciseData({exerciseName}: ExerciseDataProps) {
+    const [exerciseData, setExerciseData] = useState<ApiResponse[]>([])
+
+    async function getExerciseData() {
+        try {
+            const response = await api.get("/exercise/get_data", {
+                params: {
+                    exercise_name: exerciseName
+                }
+            })
+
+            console.log(response.data)
+            setExerciseData(response.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        getExerciseData()
+    }, [exerciseName])
+
+    return (
+        <div className="flex flex-col items-center mt-8 gap-2 w-full">
+            <p className="font-medium text-lg">Exercise Data</p>
+            {exerciseData.map((data, index) => {
+                const date = new Date(data.created_at);
+                const day = String(date.getDate()).padStart(2, "0");
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const year = String(date.getFullYear()).slice(-2);
+
+                const formattedDate = `${day}/${month}/${year}`;
+
+                return (
+                    <Card key={index} date={formattedDate} sets={data.sets} note={data.note}/>
+                )
+            })} 
+            
+        </div> //need to add a laod more button
+    )
+
+}
