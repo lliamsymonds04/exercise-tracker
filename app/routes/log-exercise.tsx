@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import type { Route } from "./+types/log-exercise";
 import { useParams, useNavigate } from "react-router";
 import { BounceLoading } from "respinner";
@@ -82,8 +82,8 @@ export default function LogExercise() {
 
             alertHelper(alertManager, false, "Success", "Exercise logged!")
             setTimeout(() => {
-                setIsSubmitting(false)
                 navigate("/home", {replace: true})
+                setIsSubmitting(false)
             }, 1000)
         } catch (error) {
             setIsSubmitting(false)
@@ -94,6 +94,11 @@ export default function LogExercise() {
     function handleNoteChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         setNote(event.target.value);
     };
+
+    useEffect(() => {
+        setSets([""])
+        setNote("")
+    }, [exerciseName])
 
     return (
         <div className="flex flex-col items-center mt-8">
