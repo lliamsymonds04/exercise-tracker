@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BeatLoading } from "respinner";
 
 import api from "~/helpers/api";
 
@@ -53,19 +54,39 @@ type ApiResponse = {
 
 export default function ExerciseData({exerciseName}: ExerciseDataProps) {
     const [exerciseData, setExerciseData] = useState<ApiResponse[]>([])
+    const [isMoreData, setIsMoreData] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     async function getExerciseData() {
+        if (isLoading) return
+        setIsLoading(true)
+
         try {
+            let params = {
+                exercise_name: exerciseName,
+                before: ""
+            }
+
+            if (exerciseData.length > 0) {
+                params["before"] = exerciseData[exerciseData.length - 1].created_at
+            }
+
             const response = await api.get("/exercise/get_data", {
                 params: {
                     exercise_name: exerciseName
                 }
             })
 
-            console.log(response.data)
-            setExerciseData(response.data)
+            setExerciseData([...exerciseData, response.data])
+
+            if (response.data.length === 5) {
+                //response returned max size so there is more data
+                setIsMoreData(true)
+            }
         } catch (error) {
             console.error(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -88,7 +109,12 @@ export default function ExerciseData({exerciseName}: ExerciseDataProps) {
                     <Card key={index} date={formattedDate} sets={data.sets} note={data.note}/>
                 )
             })} 
-            
+            {isMoreData && <button 
+                className="bg-[#D9EAFD] rounded-md p-2"
+                onClick={() => getExerciseData()}
+            >Load More</button>}
+
+            {isLoading && <BeatLoading fill={"#333333"}/>}
         </div> //need to add a laod more button
     )
 
