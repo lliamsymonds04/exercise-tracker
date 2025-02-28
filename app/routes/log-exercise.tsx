@@ -95,23 +95,28 @@ export default function LogExercise() {
             <h1 className="text-6xl w-lg font-bold drop-shadow-md text-center font-serif mb-8 mt-4">{exerciseName}</h1>
             <p className="font-medium text-lg">Log Sets</p>
 
-            <div className="flex flex-row w-[80%] max-w-[20rem] mt-2">
-                <div className="flex flex-col w-1/2 border-r-2">
-                    <p className="border-b-2 w-full text-center">Reps</p>
-                    {sets.map((_, index) => {
-                        return <Cell key={index} saveInput={(v: number) => {
-                            setsData.current[index].reps = v
-                        }}/>
-                    })}
+            <div className="flex flex-col w-[80%] max-w-[20rem] mt-2">
+                <div className="flex flex-row w-full">
+                    <p className="border-b-2 border-r-2 w-1/2 text-center">Reps</p>
+                    <p className="border-b-2 w-1/2 text-center">Weigh</p>
                 </div>
-                <div className="flex flex-col w-1/2">
-                    <p className="border-b-2 w-full text-center">Weight</p>
-                    {sets.map((_, index) => {
-                        return <Cell key={index} saveInput={(v: number) => {
-                            setsData.current[index].weight = v
-                        }}/>
-                    })}
-                </div>
+                {sets.map((_, index) => {
+                    return (
+                        <div key={index} className="flex flex-row w-full">
+                            <div className="w-1/2 border-r-2">
+                                <Cell saveInput={(v: number) => {
+                                    setsData.current[index].reps = v
+                                }}/>
+                            </div>
+                            <div className="w-1/2">
+                                <Cell saveInput={(v: number) => {
+                                    setsData.current[index].weight = v
+                                }}/>
+                            </div>
+                        </div>
+                    )
+                })}
+
             </div>
 
             {sets.length < SetsLimit && <button
