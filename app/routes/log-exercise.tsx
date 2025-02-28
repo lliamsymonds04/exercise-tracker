@@ -5,7 +5,6 @@ import { BounceLoading } from "respinner";
 
 import { Alert, useAlertManager, alertHelper } from "~/components/Alert";
 import getErrorMessage from "~/helpers/getErrorMessage";
-import ExerciseData from "~/components/ExerciseData";
 import api from "~/helpers/api";
 
 export function meta({}: Route.MetaArgs) {
@@ -92,8 +91,10 @@ export default function LogExercise() {
 
     return (
         <div className="flex flex-col items-center mt-8">
-            <p className="font-medium text-lg">Exercise Name: {exerciseName}</p>
-            <div className="flex flex-row w-[80%] max-w-[20rem] mt-8">
+            <h1 className="text-6xl w-lg font-bold drop-shadow-md text-center font-serif mb-8 mt-4">{exerciseName}</h1>
+            <p className="font-medium text-lg">Log Sets</p>
+
+            <div className="flex flex-row w-[80%] max-w-[20rem] mt-2">
                 <div className="flex flex-col w-1/2 border-r-2">
                     <p className="border-b-2 w-full text-center">Reps</p>
                     {sets.map((_, index) => {
@@ -111,6 +112,7 @@ export default function LogExercise() {
                     })}
                 </div>
             </div>
+            
             {sets.length < SetsLimit && <button
                 className="mt-4 bg-[#D9EAFD] px-3 py-1 rounded-md cursor-pointer font-bold text-lg active:scale-90"
                 onClick={addSet}
