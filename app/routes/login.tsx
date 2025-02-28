@@ -27,8 +27,8 @@ export default function Login() {
 
     function goHome() {
         setTimeout(() => {
-            navigate("/home");
-        }, 1500)
+            navigate("/home", { replace: true });
+        }, 1000)
         setIsRedirecting(true)
     }
 
@@ -112,7 +112,7 @@ export default function Login() {
 
             {isLoading && <BounceLoading fill="#333333"/>}
             <Alert alertManager={alertManager} colour={alertManager.isError ? "red" : "#333333"} iconText={alertManager.isError ? "!" : "✓"}/>
-            {isRedirecting && <BeatLoading fill="#333333"/>}
+            {isRedirecting && <BeatLoading fill="#333333" duration={2}/>}
         </div>
     )
 }
