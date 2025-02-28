@@ -4,7 +4,7 @@ import type { Route } from "./+types/login";
 
 import ToggleButton from "~/components/ToggleButton";
 import api from "~/helpers/api";
-import { BounceLoading } from "respinner";
+import { BounceLoading, BeatLoading } from "respinner";
 import {Alert, useAlertManager, alertHelper} from "~/components/Alert";
 import getErrorMessage from "~/helpers/getErrorMessage";
 
@@ -112,6 +112,7 @@ export default function Login() {
 
             {isLoading && <BounceLoading fill="#333333"/>}
             <Alert alertManager={alertManager} colour={alertManager.isError ? "red" : "#333333"} iconText={alertManager.isError ? "!" : "✓"}/>
+            {isRedirecting && <BeatLoading fill="#333333"/>}
         </div>
     )
 }
