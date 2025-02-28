@@ -103,7 +103,7 @@ export default function LogExercise() {
             <div className="flex flex-col w-[80%] max-w-[20rem] mt-2">
                 <div className="flex flex-row w-full">
                     <p className="border-b-2 border-r-2 w-1/2 text-center">Reps</p>
-                    <p className="border-b-2 w-1/2 text-center">Weigh</p>
+                    <p className="border-b-2 w-1/2 text-center">Weight</p>
                 </div>
                 {sets.map((_, index) => {
                     return (
@@ -131,7 +131,7 @@ export default function LogExercise() {
 
             <ExerciseData exerciseName={exerciseName || "temp"}/>
 
-            <textarea className="mt-4 w-[80%] max-w-[20rem] h-16 px-3 py-1 rounded-md border-2" placeholder="Notes" onChange={handleNoteChange} value={note}/>
+            <textarea className="mt-12 w-[80%] max-w-[20rem] h-16 px-3 py-1 rounded-md border-2" placeholder="Notes" onChange={handleNoteChange} value={note}/>
 
             <button className="mt-4 bg-[#D9EAFD] px-3 py-1 rounded-md cursor-pointer font-medium text-lg" onClick={submit}>Submit</button>
 
