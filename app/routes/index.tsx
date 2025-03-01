@@ -1,24 +1,39 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/index";
+import { BounceLoading } from "respinner";
+
+import api from "~/helpers/api";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Loading.." },
-    { name: "description", content: "Index" },
-  ];
+	return [
+		{ title: "Loading.." },
+		{ name: "description", content: "Index" },
+	];
 }
 
 export default function index() {
     const navigate = useNavigate();
+
+    async function checkAuth() {
+		try {
+			const res = await api.get("/me");
+
+			if (res.status === 200) {
+				navigate("/home");
+			}
+		} catch (e) {
+			navigate("/login");
+		}
+	}
+
     useEffect(() => {
-        navigate("/login")
+		checkAuth()
     }, [])
 
     return (
-      <div className="flex flex-col items-center  h-screen space-y-4">
-        <h1 className="text-6xl w-lg font-bold drop-shadow-md text-center font-serif mb-8 mt-4">Loading!</h1>
-        
-      </div>
+      	<div className="flex flex-col items-center justify-center h-screen space-y-4">
+			<BounceLoading fill="#333333" />
+      	</div>
     )
 }
