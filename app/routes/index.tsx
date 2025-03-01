@@ -20,10 +20,10 @@ export default function index() {
 			const res = await api.get("/me");
 
 			if (res.status === 200) {
-				navigate("/home");
+				navigate("/home", { replace: true });
 			}
 		} catch (e) {
-			navigate("/login");
+			navigate("/login", { replace: true });
 		}
 	}
 
