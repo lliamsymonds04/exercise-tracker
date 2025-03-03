@@ -6,7 +6,7 @@ import { BounceLoading } from "respinner";
 import { Alert, useAlertManager, alertHelper } from "~/components/Alert";
 import getErrorMessage from "~/helpers/getErrorMessage";
 import ExerciseData from "~/components/ExerciseData";
-import api from "~/helpers/api";
+import getApi from "~/helpers/api";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -55,6 +55,7 @@ const SetsLimit = 5
 
 export default function LogExercise() {
     const navigate = useNavigate();
+    const api = getApi();
     const { exerciseName } = useParams()
 
     const [sets, setSets] = useState<string[]>([""])

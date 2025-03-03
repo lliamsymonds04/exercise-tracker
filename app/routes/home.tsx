@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/home";
 
-import api from "~/helpers/api";
 import { BounceLoading } from "respinner";
+import getApi from "~/helpers/api";
+
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -14,6 +15,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
     const navigate = useNavigate();
+	const api = getApi();
 
     const [exerciseName, setExerciseName] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -106,7 +108,8 @@ export default function Home() {
 				</div>
 			}
 			{isLoading && <BounceLoading fill="#333333"/>}
-			{/* <Alert colour="#333333" title="Attention!" text="Successfully tracked!" iconText={'\u2713'}/> */}
+
+			
         </div>
     )
 }

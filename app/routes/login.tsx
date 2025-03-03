@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/login";
 
 import ToggleButton from "~/components/ToggleButton";
-import api from "~/helpers/api";
 import { BounceLoading, BeatLoading } from "respinner";
+import getApi from "~/helpers/api";
 import {Alert, useAlertManager, alertHelper} from "~/components/Alert";
 import getErrorMessage from "~/helpers/getErrorMessage";
 
@@ -17,6 +17,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
     const navigate = useNavigate();
+    const api = getApi();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

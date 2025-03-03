@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/index";
-import { BounceLoading } from "respinner";
 
-import api from "~/helpers/api";
+import { BounceLoading } from "respinner";
+import getApi from "~/helpers/api";
+
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -14,6 +15,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function index() {
     const navigate = useNavigate();
+	const api = getApi();
 
     async function checkAuth() {
 		try {
