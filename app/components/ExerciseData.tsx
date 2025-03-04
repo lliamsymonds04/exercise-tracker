@@ -101,20 +101,22 @@ export default function ExerciseData({exerciseName}: ExerciseDataProps) {
     return (
         <div className="flex flex-col items-center mt-8 gap-2 w-full">
             <p className="font-medium text-lg">Exercise Data</p>
-            {exerciseData.map((data, index) => {
-                const date = new Date(data.created_at);
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
+            <div className="flex flex-col items-center gap-2 w-full max-h-96 overflow-y-auto scroll-smooth">
+                {exerciseData.map((data, index) => {
+                    const date = new Date(data.created_at);
+                    const day = String(date.getDate()).padStart(2, "0");
+                    const month = String(date.getMonth() + 1).padStart(2, "0");
+                    const year = String(date.getFullYear()).slice(-2);
 
-                const formattedDate = `${day}/${month}/${year}`;
+                    const formattedDate = `${day}/${month}/${year}`;
 
-                return (
-                    <Card key={index} date={formattedDate} sets={data.sets} note={data.note}/>
-                )
-            })} 
+                    return (
+                        <Card key={index} date={formattedDate} sets={data.sets} note={data.note}/>
+                    )
+                })} 
+            </div>
             {isMoreData && <button 
-                className="bg-[#D9EAFD] rounded-md p-2"
+                className="bg-[#D9EAFD] rounded-md p-2 mt-4"
                 onClick={() => getExerciseData()}
             >Load More</button>}
 
