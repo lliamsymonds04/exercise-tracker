@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import type { Route } from "./+types/log-exercise";
 import { useParams, useNavigate } from "react-router";
 import { BounceLoading } from "respinner";
@@ -55,7 +55,7 @@ const SetsLimit = 5
 
 export default function LogExercise() {
     const navigate = useNavigate();
-    const api = getApi();
+    const api = useMemo(() => getApi(), []);
     const { exerciseName } = useParams()
 
     const [sets, setSets] = useState<string[]>([""])
@@ -99,7 +99,7 @@ export default function LogExercise() {
     useEffect(() => {
         setSets([""])
         setNote("")
-    }, [exerciseName])
+    }, [exerciseName, api])
 
     return (
         <div className="flex flex-col items-center mt-8">

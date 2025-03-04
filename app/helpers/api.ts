@@ -4,7 +4,7 @@ let apiInstance: AxiosInstance
 
 function getUrlBase() {
     if (typeof window !== "undefined" && window.location.hostname === "localhost") {
-        return "http://localhost:6969";
+        return "http://localhost:5000"
     } else {
         return "https://forecasting-unemployment-351485952743.asia-east1.run.app";
     }

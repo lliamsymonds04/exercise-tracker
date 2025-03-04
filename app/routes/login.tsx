@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/login";
 
@@ -17,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
     const navigate = useNavigate();
-    const api = getApi();
+    const api = useMemo(() => getApi(), []);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -35,7 +35,7 @@ export default function Login() {
 
     useEffect(() => {
         setIsLoading(false)
-    }, [])
+    }, [api])
 
     async function login() {
         try {

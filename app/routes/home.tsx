@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/home";
 
@@ -15,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
     const navigate = useNavigate();
-	const api = getApi();
+	const api = useMemo(() => getApi(), []);
 
     const [exerciseName, setExerciseName] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -57,14 +57,26 @@ export default function Home() {
 		setSuggestions([]);
 	}
 
+	async function logout() {
+		try {
+			const response = await api.get("/logout");
+
+			if (response.status === 200) {
+				navigate("/login", { replace: true });
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	useEffect(() => {
 		setExerciseName("")
 
 		getExerciseNames()
-	}, [])
+	}, [api])
 
     return (
-        <div className="flex flex-col items-center h-screen space-y-4 w-screen">
+        <div className="reltaive flex flex-col items-center h-screen space-y-4 w-screen">
             <h1 className="text-6xl w-lg font-bold drop-shadow-md text-center font-serif mb-8 mt-4">Track Track Track!</h1>
 
 			<div className="bg-gray-200 rounded-md h-fit w-[80%] max-w-[20rem] p-3 flex flex-col items-center">
@@ -109,6 +121,12 @@ export default function Home() {
 			}
 			{isLoading && <BounceLoading fill="#333333"/>}
 
+			<button
+					className="absolute bottom-10 bg-[#FF7F7F] px-3 py-1 rounded-xl cursor-pointer font-bold text-lg active:scale-90"
+				onClick={() => {
+					logout()				
+				}}
+			>Logout</button>
 			
         </div>
     )

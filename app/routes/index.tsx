@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/index";
 
@@ -15,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function index() {
     const navigate = useNavigate();
-	const api = getApi();
+	const api = useMemo(() => getApi(), []);
 
     async function checkAuth() {
 		try {
@@ -31,7 +31,7 @@ export default function index() {
 
     useEffect(() => {
 		checkAuth()
-    }, [])
+    }, [api])
 
     return (
       	<div className="flex flex-col items-center justify-center h-screen space-y-4">
