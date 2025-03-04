@@ -1,100 +1,25 @@
-# Welcome to React Router!
+# Exercise Tracker
 
-A modern, production-ready template for building full-stack React applications using React Router.
+[Check it out](https://lliams-exercise-tracker.vercel.app)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Overview
 
-## Features
+This project is a full-stack exercise tracker website where users can log their exercises. I made this website has a no-frills alternatives to other apps that have ads/bloated features. The website's frontend is built using React, and the backend is powered by Flask. The application is hosted using Docker on Google Cloud Run, ensuring scalability and reliability. The backend communicates with a PostgreSQL database using Flask SQLAlchemy, and Neon PostgreSQL is used as the database provider.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+### Features
 
-## Getting Started
+    User authentication (sign-up, login, and logout)
+    Exercise logging with detailed descriptions
+    View past workouts and progress
+    RESTful API for interacting with the backend
+    Data stored in a PostgreSQL database
 
-### Installation
+### Screenshot
+![Example](/public/example.png)
+### Tech Stack
 
-Install the dependencies:
-
-```bash
-npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-This template includes three Dockerfiles optimized for different package managers:
-
-- `Dockerfile` - for npm
-- `Dockerfile.pnpm` - for pnpm
-- `Dockerfile.bun` - for bun
-
-To build and run using Docker:
-
-```bash
-# For npm
-docker build -t my-app .
-
-# For pnpm
-docker build -f Dockerfile.pnpm -t my-app .
-
-# For bun
-docker build -f Dockerfile.bun -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+    Frontend: React
+    Backend: Flask
+    Database: Neon PostgreSQL (via Flask SQLAlchemy)
+    Containerization: Docker
+    Deployment: Google Cloud Run
