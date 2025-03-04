@@ -1,6 +1,8 @@
 # Exercise Tracker
 
-[Check it out](https://lliams-exercise-tracker.vercel.app)
+[Check it out!](https://lliams-exercise-tracker.vercel.app)
+
+[Backend repo](https://github.com/lliamsymonds04/exercise-tracker-backend)
 
 ## Overview
 
