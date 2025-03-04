@@ -21,7 +21,7 @@ export default function Home() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [exerciseNameList, setExerciseNameList] = useState<string[]>([]);
 	const [suggestions, setSuggestions] = useState<string[]>([]);
-	const [isLoggingOut, setIsLoggingOut] = useState(false);	
+	
 
 	async function getExerciseNames() {
 		try {
@@ -58,15 +58,13 @@ export default function Home() {
 	}
 
 	async function logout() {
-		setIsLoggingOut(true)
 		try {
-			const response = await api.post("/logout");
+			const response = await api.get("/logout");
 
 			if (response.status === 200) {
 				navigate("/login", { replace: true });
 			}
 		} catch (error) {
-			setIsLoggingOut(false)
 			console.error(error);
 		}
 	}
@@ -123,16 +121,13 @@ export default function Home() {
 			}
 			{isLoading && <BounceLoading fill="#333333"/>}
 
-			<div className="absolute bottom-10 flex flex-col items-center space-y-4">
-				<button
-					className="absolute bottom-10 px-3 py-1 rounded-xl cursor-pointer font-bold text-lg active:scale-90"
-					style={{ backgroundColor: "#FF7F7F" }}
-					onClick={() => {
-						logout()				
-					}}
-				>Logout</button>
-				{isLoggingOut && <BounceLoading fill="#FF7F7F"/>}
-			</div>
+			<button
+				className="absolute bottom-10 px-3 py-1 rounded-xl cursor-pointer font-bold text-lg active:scale-90"
+				style={{ backgroundColor: "#FF7F7F" }}
+				onClick={() => {
+					logout()				
+				}}
+			>Logout</button>
 			
         </div>
     )

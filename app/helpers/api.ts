@@ -11,7 +11,7 @@ function getUrlBase() {
 }
 
 export default function getApi() {
-    if (!apiInstance && typeof window !== "undefined") {
+    if (!apiInstance) {
         apiInstance = axios.create({
             baseURL: getUrlBase(),
             withCredentials: true, // Allows cookies to be sent

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { BeatLoading } from "respinner";
-
-import api from "~/helpers/api";
+import getApi from "~/helpers/api";
 
 type CardProps = {
     date: string;
@@ -55,6 +54,8 @@ type ApiResponse = {
 }
 
 export default function ExerciseData({exerciseName}: ExerciseDataProps) {
+    const api = useMemo(() => getApi(), []);
+
     const [exerciseData, setExerciseData] = useState<ApiResponse[]>([])
     const [isMoreData, setIsMoreData] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -66,17 +67,16 @@ export default function ExerciseData({exerciseName}: ExerciseDataProps) {
         try {
             let params = {
                 exercise_name: exerciseName,
-                before: ""
+                before: new Date().toISOString(),
             }
 
             if (exerciseData.length > 0) {
                 params["before"] = exerciseData[exerciseData.length - 1].created_at
+                console.log(params["before"])
             }
 
             const response = await api.get("/exercise/get_data", {
-                params: {
-                    exercise_name: exerciseName
-                }
+                params
             })
 
             setExerciseData([...exerciseData, ...response.data])
@@ -84,6 +84,8 @@ export default function ExerciseData({exerciseName}: ExerciseDataProps) {
             if (response.data.length === 5) {
                 //response returned max size so there is more data
                 setIsMoreData(true)
+            } else {
+                setIsMoreData(false)
             }
         } catch (error) {
             console.error(error)
@@ -94,7 +96,7 @@ export default function ExerciseData({exerciseName}: ExerciseDataProps) {
 
     useEffect(() => {
         getExerciseData()
-    }, [exerciseName])
+    }, [exerciseName, api])
 
     return (
         <div className="flex flex-col items-center mt-8 gap-2 w-full">
